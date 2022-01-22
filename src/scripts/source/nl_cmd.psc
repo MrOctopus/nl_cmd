@@ -20,19 +20,25 @@ event OnInit()
     _registered_var_types = new string[2]
     _registered_descs = new string[2]
 
-    ; Default help command
+    ; Help
     _registered_cmds[0] = "help"
     _registered_var_types[0] = ""
-    _registered_descs[0] = "List all commands"
+    _registered_descs[0] = "Print help text"
+
+    ; List all commands
+    _registered_cmds[1] = "help commands"
+    _registered_var_types[1] = ""
+    _registered_descs[1] = "List all commands"
 
     ; Built in mod event sender
-    _registered_cmds[1] = "SendModEvent"
-    _registered_var_types[1] = "string,string,float"
-    _registered_descs[1] = "Send a general mod event"
+    _registered_cmds[2] = "SendModEvent"
+    _registered_var_types[2] = "string,string,float"
+    _registered_descs[2] = "Send a general mod event"
 
     _busy_mutex = false
 
     RegisterForModEvent("nl_cmd_help", "OnHelpCommand")
+    RegisterForModEvent("nl_cmd_help command", "OnHelpListCommand")
     RegisterForModEvent("nl_cmd_sendmodevent", "OnSendModEventCommand")
     RegisterForMenu(_CON)
 endevent
@@ -121,11 +127,11 @@ event OnKeyDown(int key)
 	_RunCommand(cmd, vars)
 endevent
 
-event OnSendModEventCommand(string event_name, string arg, float argF)
-    SendModEvent(event_name, arg, argF)
+event OnHelpCommand()
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] TODO\n")
 endevent
 
-event OnHelpCommand()
+event OnHelpListCommand()
     int num_cmds = _registered_cmds.length
     int i = 0
 
@@ -140,6 +146,10 @@ event OnHelpCommand()
 
         i += 1
     endwhile
+endevent
+
+event OnSendModEventCommand(string event_name, string arg, float argF)
+    SendModEvent(event_name, arg, argF)
 endevent
 
 ;---------\
@@ -166,7 +176,8 @@ function _RunCommand(string cmd, string vars)
     
     if vars_arr.length != vars_type.length
         ModEvent.Release(handle)
-        _Print("The number of given parameters did not match the expected number. Found " + vars_arr.length + ", expected " + vars_type.length)
+        _Print("The number of given parameters (" + vars_arr.length + ") did not match the expected number (" + vars_type.length + \
+               "). Note that the variable separator for function calls is ';' and not ',' as is the case for function definitions.")
         return
     endif
 

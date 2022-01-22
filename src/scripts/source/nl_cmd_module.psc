@@ -56,8 +56,8 @@ endfunction
 ;--------------------------------------------------------
 
 bool function RegisterCommand(string cmd, string callback, string vars = "", string desc = "")
-	if StringUtil.Find(cmd, " ") != -1 || StringUtil.Find(cmd, "(") != -1 || StringUtil.Find(cmd, ")") != -1
-		_Print(cmd, "The command contains one or more of the following illegal characters: ' ', '(', ')'", "Error")
+	if StringUtil.Find(cmd, "(") != -1 || StringUtil.Find(cmd, ")") != -1
+		_Print(cmd, "The command contains one or more of the following illegal characters: '(', ')'", "Error")
 		return false
 	endif
 	

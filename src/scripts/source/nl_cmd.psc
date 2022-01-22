@@ -38,7 +38,7 @@ event OnInit()
     _busy_mutex = false
 
     RegisterForModEvent("nl_cmd_help", "OnHelpCommand")
-    RegisterForModEvent("nl_cmd_help command", "OnHelpListCommand")
+    RegisterForModEvent("nl_cmd_help commands", "OnHelpListCommand")
     RegisterForModEvent("nl_cmd_sendmodevent", "OnSendModEventCommand")
     RegisterForMenu(_CON)
 endevent

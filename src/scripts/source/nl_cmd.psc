@@ -16,9 +16,9 @@ int _last_cmds_i = -1
 ;--------------------------------------------------------
 
 event OnInit()
-    _registered_cmds = new string[2]
-    _registered_var_types = new string[2]
-    _registered_descs = new string[2]
+    _registered_cmds = new string[3]
+    _registered_var_types = new string[3]
+    _registered_descs = new string[3]
 
     ; Help
     _registered_cmds[0] = "help"
@@ -128,6 +128,7 @@ event OnKeyDown(int key)
 endevent
 
 event OnHelpCommand()
+    Ui.Invoke(_CON, "_global.Console.ClearHistory")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] TODO\n")
 endevent
 
@@ -203,7 +204,7 @@ function _RunCommand(string cmd, string vars)
         elseif var_type == "string"
             ModEvent.PushString(handle, vars_arr[i])
         elseif var_type == "form"
-            form var = Game.GetFormEx(_HexStringToInt(vars_arr[i]))
+            form var = Game.GetFormEx(nl_cmd_util.HexStringToInt(vars_arr[i]))
             ModEvent.PushForm(handle, var)
         endif
         
@@ -211,33 +212,6 @@ function _RunCommand(string cmd, string vars)
     endwhile
 	
 	ModEvent.Send(handle)
-endfunction
-
-int function _HexStringToInt(string sHex)
-    if StringUtil.Find(sHex, "0x") == 0
-        sHex = StringUtil.Substring(sHex, 2)
-    endif
-
-    int iDec
-    int iPlace = 1
-    int iIndex = 6
-    
-    while iIndex > 0
-        iIndex -= 1
-        string sChar = StringUtil.SubString(sHex, iIndex, 1)
-        int iSubNumber
-        
-        if StringUtil.IsDigit(sChar)
-            iSubNumber = sChar as int
-        Else
-            iSubNumber = StringUtil.AsOrd(sChar) - 55
-        endIf
-        
-        iDec += iSubNumber * iPlace
-        iPlace *= 16
-    endWhile
-    
-    Return iDec
 endfunction
 
 function _Print(string text, string type = "Info")

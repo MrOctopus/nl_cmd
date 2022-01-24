@@ -11,6 +11,7 @@ string function GetModName(form to_find) global
     @param to_find - The form to find the mod name of
     @return The mod name string
 }
+
 	int form_id = to_find.GetFormID()
 	int index = Math.RightShift(form_id, 24)
 
@@ -24,7 +25,7 @@ endfunction
 string function GetScriptName(form to_find) global
 {
     Get the script name form.
-    @param to_find - The form to find the script name of
+    @param to_find - The form to find the scripts name of
     @return The script name string
 }
 	string form_string = to_find as string

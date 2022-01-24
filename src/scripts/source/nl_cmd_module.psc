@@ -55,8 +55,8 @@ bool function RegisterCommand(string cmd, string callback, string vars = "", str
 {
 	Register a new command to the nl_cmd framework.
 	@param cmd - The command string. All characters are allowed except '(' and ')'
-	@param callback - The string name of the event callback function.
-	@param vars - A variable type definition represented as a string if the callback takes any arguments. Types are separated by , and no spaces, e.g. "string,string,int" or "bool"
+	@param callback - The string name of the event callback function
+	@param vars - A variable type definition represented as a string if the callback takes any arguments. Types are separated by , and no spaces, e.g. "string,string,int" or "bool". Valid types are bool, int, string, form, float
 	@param desc- A string description of the command that will be printed to the console if the player types "nl_cmd help commands"
 	@return A bool indicating if the registration succeeded or not
 }
@@ -116,7 +116,7 @@ endfunction
 bool function UnregisterCommand(string cmd)
 {
 	Unregister an existing command from the nl_cmd framework.
-	@param cmd - The command string.
+	@param cmd - The command string
 	@return A bool indicating if the unregistration succeeded or not
 }
 	nl_cmd main = Game.GetFormFromFile(CMD_QUEST_FORM, "nl_cmd.esl") as nl_cmd

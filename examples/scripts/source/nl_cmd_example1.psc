@@ -6,6 +6,11 @@ event OnInit()
     ;
     ; The papyrus comment behind the registration calls are
     ; verbatim examples of how you would call them in-game.
+    ;
+    ; Note that since the command namespace is shared, 
+    ; a good practice would be to prefix your commands with a unique tag
+    ; to differentiate them from other mods' commands. E.g. "mymod hello" instead of "hello".
+    ; That, or ensure you handle registration errors if they occur.
 
     ; Simple commands without arguments
     RegisterCommand("hello", "OnHelloCommand", desc = "Prints hello to the console") ; nl_cmd hello

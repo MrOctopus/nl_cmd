@@ -8,10 +8,17 @@ Scriptname nl_cmd_module extends Quest
 
 string property _CON = "Console" autoreadonly
 int property CMD_QUEST_FORM = 0x00000D61 autoreadonly
-{ The core nl_cmd quest script }
+{ The core nl_cmd quest script form }
 
 bool _advanced_features = false
 bool property AdvancedFeatures hidden
+{
+	Toggles the advanced features flag on the script. If enabled, two commands will automatically be registered for use in-game: \
+	RegisterCommandOn_thisscriptname(string,string,string,string) \
+    UnregisterCommandFrom_thisscriptname(string)
+	@get If AdvancedFeatures is enabled or not. Default is False.
+	@set bool - Enable AdvancedFeatures
+}
 	function Set(bool enable)
 		string script_name = nl_cmd_util.GetScriptName(self)
 
@@ -37,7 +44,7 @@ endproperty
 
 function _Print(string cmd, string text, string type = "Info")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [" + type + "]: " + text + "\n")
-    Debug.Trace("NL_CMD(" + self.GetModName(self) + ", " + nl_cmd_util.GetScriptName(self) + ", '" + cmd + "') [" + type + "]: " + text)
+    Debug.Trace("NL_CMD(" + nl_cmd_util.GetModName(self) + ", " + nl_cmd_util.GetScriptName(self) + ", '" + cmd + "') [" + type + "]: " + text)
 endfunction
 
 ;----\
@@ -60,6 +67,12 @@ bool function RegisterCommand(string cmd, string callback, string vars = "", str
 	
 	if StringUtil.Find(vars, " ") != -1
 		_Print(cmd, "The variable types contain an illegal character ' '", "Error")
+		return false
+	endif
+
+	if StringUtil.Find(vars, ";") != -1
+		_Print(cmd, "The variable types contain an illegal character ';'", "Error")
+		_Print(cmd, "Remember, ';' is used to separate variables when calling a command. ',' is used to separate types when *defining* a command.", "Error")
 		return false
 	endif
 
@@ -104,7 +117,7 @@ bool function UnregisterCommand(string cmd)
 {
 	Unregister an existing command from the nl_cmd framework.
 	@param cmd - The command string.
-	@return A bool indicating if the de-registration succeeded or not
+	@return A bool indicating if the unregistration succeeded or not
 }
 	nl_cmd main = Game.GetFormFromFile(CMD_QUEST_FORM, "nl_cmd.esl") as nl_cmd
 

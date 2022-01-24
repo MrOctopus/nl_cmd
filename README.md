@@ -15,6 +15,10 @@ TODO
 
 [Nexus](https://www.nexusmods.com/skyrimspecialedition/mods/62497)
 
+## Documentation
+
+* The source documentation is available in the [Wiki](https://github.com/MrOctopus/nl_cmd/wiki/Home).
+
 ### Examples
 Several uses of nl_cmd are demonstrated in the scripts present in the [examples folder](https://github.com/MrOctopus/nl_cmd/tree/master/examples).
 

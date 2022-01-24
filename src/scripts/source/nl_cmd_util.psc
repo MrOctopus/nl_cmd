@@ -61,5 +61,5 @@ int function HexStringToInt(string hex_string) global
         hex_place *= 16
     endWhile
     
-    Return hex_int
+    return hex_int
 endfunction

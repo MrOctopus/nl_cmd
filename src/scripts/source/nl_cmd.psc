@@ -15,6 +15,7 @@ string[] _registered_var_types
 string[] _registered_descs
 
 bool _busy_mutex = true
+bool _first_time = true
 int _last_cmds_i = -1
 
 ;-------\
@@ -52,6 +53,14 @@ endevent
 event OnMenuOpen(string menu)
     RegisterForKey(_DX_ENTER)
     RegisterForKey(_DX_NUM_ENTER)
+    
+    if _first_time
+        _first_time = false
+        Ui.Invoke(_CON, "_global.Console.ClearHistory")
+        Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] Hey there! Thanks for using NL_CMD\n")
+        OnHelpCommand()
+        Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] If you ever want to read this printout again, just type \"nl_cmd help\"\n")
+    endif
 endevent
 
 event OnMenuClose(string menu)
@@ -99,7 +108,7 @@ event OnKeyDown(int key)
 	cmd_j = StringUtil.GetLength(cmd)
 	
 	if cmd_i >= cmd_j
-        _Print("Please specify a command to run")
+        _Print("Please specify a command to run. Type \"nl_cmd help commands\" to see all registered commands")
 		return
 	endif
 
@@ -134,15 +143,17 @@ event OnKeyDown(int key)
 endevent
 
 event OnHelpCommand()
-    Ui.Invoke(_CON, "_global.Console.ClearHistory")
-    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] TODO\n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] To get started, checkout the command list by typing \"nl_cmd help commands\"\n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] Good to know:\n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * All commands are called by prefixing them with the nl_cmd keyword in the input\n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * Somme commands take arguments that need to be provided in parantheses, e.g. nl_cmd SendModEvent(argumentshere) \n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * Commands that take multiple arguments must separate between them in the paranthesis using the ';' character, e.g. nl_cmd SendModEvent(randomevent;;0.0)\n")
 endevent
 
 event OnHelpListCommand()
     int num_cmds = _registered_cmds.length
     int i = 0
 
-    Ui.Invoke(_CON, "_global.Console.ClearHistory")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] The following commands are currently registered:\n")
     while i < num_cmds
         if _registered_descs[i] != ""
@@ -183,8 +194,9 @@ function _RunCommand(string cmd, string vars)
     
     if vars_arr.length != vars_type.length
         ModEvent.Release(handle)
-        _Print("The number of given parameters (" + vars_arr.length + ") did not match the expected number (" + vars_type.length + \
-               "). Note that the variable separator for function calls is ';' and not ',' as is the case for function definitions.")
+        _Print("The number of given parameters (" + vars_arr.length + ") did not match the expected number (" + vars_type.length + ") for the command: " + \
+               cmd + "(" + vars_type + ")")
+        _Print("Note that the variable separator for commands calls is ';' and not ',' as is the case for command definitions")
         return
     endif
 

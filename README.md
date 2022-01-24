@@ -1,8 +1,6 @@
 # nl_cmd
 
-NL_CMD is an advanced papyrus framework created for the purpose of supporting the addition of new console commands to Skyrim SSE. \
-From day one it was designed with accessibility in mind, providing easy-to-use functions to simplify console - papyrus communication. \
-Registering and unregistering new commands is almost as easy as registering for plain old, vanilla papyrus events, and argument parsing is built-in from the get-go.
+NL_CMD is an advanced papyrus framework created for the purpose of supporting the addition of new console commands to Skyrim SSE. From day one it was designed with accessibility in mind, providing easy-to-use functions to simplify console - papyrus communication. Registering and unregistering new commands is almost as easy as registering for plain old, vanilla papyrus events, and argument parsing is built-in from the get-go.
 
 Notably the mod has no additional dependencies besides SKSE and should always be compatible with every game version that SKSE supports. 
 

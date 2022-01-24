@@ -1,4 +1,10 @@
 Scriptname nl_cmd extends Quest
+{
+	This script functions as the backbone of the nl_cmd framework. \
+    It is not intended as an API for users.
+	@author NeverLost
+	@version 1.0.0
+}
 
 string property _CON = "Console" autoreadonly
 int property _DX_ENTER = 0x1C autoreadonly ; Enter

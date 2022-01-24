@@ -1,12 +1,19 @@
 Scriptname nl_cmd_module extends Quest
+{
+	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script, \
+	and then registering/unregistering commands in the manner that suits them best. For example, in the OnInit() script event.
+	@author NeverLost
+	@version 1.0.0
+}
 
 string property _CON = "Console" autoreadonly
 int property CMD_QUEST_FORM = 0x00000D61 autoreadonly
+{ The core nl_cmd quest script }
 
 bool _advanced_features = false
 bool property AdvancedFeatures hidden
 	function Set(bool enable)
-		string script_name = _GetMyScriptName()
+		string script_name = nl_cmd_util.GetScriptName(self)
 
 		if enable
 			RegisterCommand("RegisterCommandOn_" + script_name, "RegisterCommand", "string,string,string,string")
@@ -28,27 +35,9 @@ endproperty
 ; INTERNAL \
 ;--------------------------------------------------------
 
-string function _GetMyModName()
-	int form_id = self.GetFormID()
-	int index = Math.RightShift(form_id, 24)
-
-	if index == 254
-		return Game.GetLightModName(Math.RightShift(form_id, 12) - 0xFE000)
-	endif
-
-	return Game.GetModName(index)
-endfunction
-
-string function _GetMyScriptName()
-	string form_string = self as string
-	int i = 1
-	int j = StringUtil.Find(form_string, " <") - 1
-
-	return StringUtil.SubString(form_string, i, j)
-endfunction
-
 function _Print(string cmd, string text, string type = "Info")
-    Debug.Trace("NL_CMD(" + _GetMyModName() + ", " + _GetMyScriptName() + ", '" + cmd + "') [" + type + "]: " + text)
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [" + type + "]: " + text + "\n")
+    Debug.Trace("NL_CMD(" + self.GetModName(self) + ", " + nl_cmd_util.GetScriptName(self) + ", '" + cmd + "') [" + type + "]: " + text)
 endfunction
 
 ;----\
@@ -56,6 +45,14 @@ endfunction
 ;--------------------------------------------------------
 
 bool function RegisterCommand(string cmd, string callback, string vars = "", string desc = "")
+{
+	Register a new command to the nl_cmd framework.
+	@param cmd - The command string. All characters are allowed except '(' and ')'
+	@param callback - The string name of the event callback function.
+	@param vars - A variable type definition represented as a string if the callback takes any arguments. Types are separated by , and no spaces, e.g. "string,string,int" or "bool"
+	@param desc- A string description of the command that will be printed to the console if the player types "nl_cmd help commands"
+	@return A bool indicating if the registration succeeded or not
+}
 	if StringUtil.Find(cmd, "(") != -1 || StringUtil.Find(cmd, ")") != -1
 		_Print(cmd, "The command contains one or more of the following illegal characters: '(', ')'", "Error")
 		return false
@@ -88,7 +85,7 @@ bool function RegisterCommand(string cmd, string callback, string vars = "", str
 	nl_cmd main = Game.GetFormFromFile(CMD_QUEST_FORM, "nl_cmd.esl") as nl_cmd
 
 	if main == None
-		_Print(cmd, "NL_CMD is not installed, aborting registration of command")
+		_Print(cmd, "NL_CMD core is not installed, aborting registration of command")
 		return false
 	endif
 
@@ -104,6 +101,11 @@ bool function RegisterCommand(string cmd, string callback, string vars = "", str
 endfunction
 
 bool function UnregisterCommand(string cmd)
+{
+	Unregister an existing command from the nl_cmd framework.
+	@param cmd - The command string.
+	@return A bool indicating if the de-registration succeeded or not
+}
 	nl_cmd main = Game.GetFormFromFile(CMD_QUEST_FORM, "nl_cmd.esl") as nl_cmd
 
 	if main == None
@@ -123,14 +125,25 @@ bool function UnregisterCommand(string cmd)
 endfunction
 
 function PrintConsole(string text)
+{
+	Print some text to the console.
+	@param text - The text string to print to the console
+}
 	Ui.InvokeString(_CON, "_global.Console.AddHistory", text + "\n")
 endfunction
 
 function ClearConsole()
+{
+	Clear the console history.
+}
 	Ui.Invoke(_CON, "_global.Console.ClearHistory")
 endfunction
 
 ObjectReference function GetCurrentConsoleSelection()
+{
+	Get the current user reference selection in the console menu.
+	@return The object reference of the currently selected object, or None if nothing is selected
+}
 	string form_string = Ui.GetString(_CON, "_global.Console.ConsoleInstance.CurrentSelection.text")
 
 	if form_string == ""
@@ -145,6 +158,10 @@ ObjectReference function GetCurrentConsoleSelection()
 endfunction
 
 string function GetLastConsoleCommand()
+{
+	Get the last command that the user input into the console.
+	@return The command string
+}
 	int cmds_i =  Ui.GetInt(_CON, "_global.Console.ConsoleInstance.Commands.length") - 1
 	return Ui.GetString(_CON, "_global.Console.ConsoleInstance.Commands." + cmds_i)
 endfunction

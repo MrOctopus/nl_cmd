@@ -1,6 +1,45 @@
 Scriptname nl_cmd_util
+{
+	This script contains miscellaneous useful global functions.
+	@author NeverLost
+	@version 1.0.0
+}
+
+string function GetModName(form to_find)
+{
+    Get the mod name of a form.
+    @param to_find - The form to find the mod name of
+    @return The mod name string
+}
+	int form_id = to_find.GetFormID()
+	int index = Math.RightShift(form_id, 24)
+
+	if index == 254
+		return Game.GetLightModName(Math.RightShift(form_id, 12) - 0xFE000)
+	endif
+
+	return Game.GetModName(index)
+endfunction
+
+string function GetScriptName(form to_find)
+{
+    Get the script name form.
+    @param to_find - The form to find the script name of
+    @return The script name string
+}
+	string form_string = to_find as string
+	int i = 1
+	int j = StringUtil.Find(form_string, " <") - 1
+
+	return StringUtil.SubString(form_string, i, j)
+endfunction
 
 int function HexStringToInt(string hex_string) global
+{
+    Converts a given hex string to an int.
+    @param hex_string - The hex string to convert (0x prefix is optional)
+    @return The int conversion
+}
     if StringUtil.Find(hex_string, "0x") == 0
         hex_string = StringUtil.Substring(hex_string, 2)
     endif

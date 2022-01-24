@@ -5,7 +5,7 @@ Scriptname nl_cmd_util
 	@version 1.0.0
 }
 
-string function GetModName(form to_find)
+string function GetModName(form to_find) global
 {
     Get the mod name of a form.
     @param to_find - The form to find the mod name of
@@ -21,7 +21,7 @@ string function GetModName(form to_find)
 	return Game.GetModName(index)
 endfunction
 
-string function GetScriptName(form to_find)
+string function GetScriptName(form to_find) global
 {
     Get the script name form.
     @param to_find - The form to find the script name of

@@ -16,7 +16,7 @@ TODO
 [Nexus](https://www.nexusmods.com/skyrimspecialedition/mods/62497)
 
 ### Examples
-Several uses of nl_cmd are demonstrated in the scripts present in the [examples folder](https://github.com/MrOctopus/nl_mcm/tree/examples).
+Several uses of nl_cmd are demonstrated in the scripts present in the [examples folder](https://github.com/MrOctopus/nl_cmd/tree/master/examples).
 
 ### Compiling
 
@@ -24,7 +24,7 @@ Several uses of nl_cmd are demonstrated in the scripts present in the [examples 
 | Steps | Description                                                              |
 |-------|--------------------------------------------------------------------------|
 | 1.    | Import https://github.com/MrOctopus/nl_online/tree/main/skse64/source     |
-| 2.    | Import https://github.com/MrOctopus/cmd/tree/master/src/scripts/source |
+| 2.    | Import https://github.com/MrOctopus/nl_cmd/tree/master/src/scripts/source |
 
 ### Distribution
 

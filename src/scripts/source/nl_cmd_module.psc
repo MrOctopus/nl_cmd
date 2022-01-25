@@ -3,7 +3,7 @@ Scriptname nl_cmd_module extends Quest
 	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script, \
 	and then registering/unregistering commands in the manner that suits them best. For example, in the OnInit() script event.
 	@author NeverLost
-	@version 1.0.0
+	@version 1.0.1
 }
 
 string property _CON = "Console" autoreadonly
@@ -152,7 +152,28 @@ function ClearConsole()
 	Ui.Invoke(_CON, "_global.Console.ClearHistory")
 endfunction
 
-ObjectReference function GetCurrentConsoleSelection()
+function ExecuteConsoleNative(string command)
+{
+	Execute a native console command.
+	@param command - The native string command to execute
+}
+	if command != ""
+		int handle = UiCallback.Create(_CON, "_global.flash.external.ExternalInterface.call")
+		
+		string[] args = new string[2]
+		args[0] = -1
+		args[1] = command
+		
+		if handle
+			UiCallback.PushString(handle, "ExecuteCommand")
+			UiCallback.PushStringA(handle, args)
+
+			UiCallback.Send(handle)
+		endif
+	endif
+endfunction
+
+objectreference function GetCurrentConsoleSelection()
 {
 	Get the current user reference selection in the console menu.
 	@return The object reference of the currently selected object, or None if nothing is selected
@@ -167,7 +188,7 @@ ObjectReference function GetCurrentConsoleSelection()
 	int form_string_var_i = StringUtil.Find(form_string, "(")
 	form_string = StringUtil.Substring(form_string, form_string_var_i + 1, form_string_len - form_string_var_i - 2)
 
-	return Game.GetFormEx(nl_cmd_util.HexStringToInt(form_string)) as ObjectReference
+	return Game.GetFormEx(nl_cmd_util.HexStringToInt(form_string)) as objectreference
 endfunction
 
 string function GetLastConsoleCommand()

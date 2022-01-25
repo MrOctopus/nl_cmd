@@ -18,6 +18,7 @@ event OnInit()
     RegisterCommand("disable_selection", "OnDisableSel", desc = "Disable the currently selected console object") ; nl_cmd disable_selection
     ; Single argument commands
     RegisterCommand("hello to", "OnHelloToCommand", "string") ; nl_cmd hello to(peter)
+    RegisterCommand("run native", "OnRunNativeCommand", "string", "Run a native console command") ; nl_cmd run native(player.placeatme 00013BBF 1)
     ; Double argument command
     RegisterCommand("spawn form", "OnSpawnCommand", "form,int", "Identical to place at me command") ; nl_cmd spawn form(0x00013BBF;1)
     ; Multiple argument command
@@ -60,6 +61,10 @@ endevent
 
 event OnHelloToCommand(string name)
     PrintConsole("Hello to " + name + "!")
+endevent
+
+event OnRunNativeCommand(string command)
+    ExecuteConsoleNative(command)
 endevent
 
 event OnSpawnCommand(form to_spawn, int number)

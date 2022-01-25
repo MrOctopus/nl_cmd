@@ -17,6 +17,7 @@ Notably the mod has no additional dependencies besides SKSE and should always be
 * Built-in console API
     - Clear the console
     - Print to console
+    - Execute native console commands
     - Get the last console command
     - Get the current console selection
     - All without any .dll dependencies!

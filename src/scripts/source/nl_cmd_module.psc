@@ -1,7 +1,7 @@
 Scriptname nl_cmd_module extends Quest
 {
-	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script, \
-	and then registering/unregistering commands in the manner that suits them best. For example, in the OnInit() script event.
+	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script,
+	and then register/unregister commands in the manner that suits them best. For example, in the OnInit() script event.
 	@author NeverLost
 	@version 1.0.1
 }
@@ -152,17 +152,17 @@ function ClearConsole()
 	Ui.Invoke(_CON, "_global.Console.ClearHistory")
 endfunction
 
-function ExecuteConsoleNative(string command)
+function ExecuteConsoleNative(string cmd)
 {
 	Execute a native console command.
-	@param command - The native string command to execute
+	@param cmd - The native string command to execute
 }
-	if command != ""
+	if cmd != ""
 		int handle = UiCallback.Create(_CON, "_global.flash.external.ExternalInterface.call")
 		
 		string[] args = new string[2]
 		args[0] = -1
-		args[1] = command
+		args[1] = cmd
 		
 		if handle
 			UiCallback.PushString(handle, "ExecuteCommand")

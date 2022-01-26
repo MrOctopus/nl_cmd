@@ -175,20 +175,11 @@ endfunction
 
 objectreference function GetCurrentConsoleSelection()
 {
-	Get the current user reference selection in the console menu.
+	Get the current user reference selection in the console menu. \
+	This is only a wrapper around the SKSE Game.GetcurrentConsoleRef().
 	@return The object reference of the currently selected object, or None if nothing is selected
 }
-	string form_string = Ui.GetString(_CON, "_global.Console.ConsoleInstance.CurrentSelection.text")
-
-	if form_string == ""
-		return None
-	endif
-
-	int form_string_len = StringUtil.GetLength(form_string)
-	int form_string_var_i = StringUtil.Find(form_string, "(")
-	form_string = StringUtil.Substring(form_string, form_string_var_i + 1, form_string_len - form_string_var_i - 2)
-
-	return Game.GetFormEx(nl_cmd_util.HexStringToInt(form_string)) as objectreference
+	return Game.GetCurrentConsoleRef()
 endfunction
 
 string function GetLastConsoleCommand()

@@ -17,6 +17,7 @@ event OnInit()
     RegisterCommand("clear", "OnClearCommand") ; nl_cmd clear
     RegisterCommand("disable_selection", "OnDisableSel", desc = "Disable the currently selected console object") ; nl_cmd disable_selection
     ; Single argument commands
+    RegisterCommand("set_selection", "OnSetSel", "form", "Set the current console reference") ; nl_cmd set_selection(0x0001A6A4)
     RegisterCommand("hello to", "OnHelloToCommand", "string") ; nl_cmd hello to(peter)
     RegisterCommand("run native", "OnRunNativeCommand", "string", "Run a native console command") ; nl_cmd run native(player.placeatme 00013BBF 1)
     ; Double argument command
@@ -56,6 +57,14 @@ event OnDisableSel()
     ; If user has selected something, obj is not None
     if obj != None
         obj.Disable()
+    endif
+endevent
+
+event OnSetSel(form to_set)
+    objectreference obj = to_set as objectreference
+    
+    if obj != None
+        SetCurrentConsoleSelection(obj)
     endif
 endevent
 

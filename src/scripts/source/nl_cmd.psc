@@ -3,7 +3,7 @@ Scriptname nl_cmd extends Quest
 	This script functions as the backbone of the nl_cmd framework. \
     It is not intended as an API for users.
 	@author NeverLost
-	@version 1.0.1
+	@version 1.0.2
 }
 
 string property _CON = "Console" autoreadonly
@@ -104,6 +104,10 @@ event OnKeyDown(int key)
     history = StringUtil.Substring(history, 0, -history_i + 1)
     Ui.SetString(_CON, "_global.Console.ConsoleInstance.CommandHistory.text", history)
 
+    ; We need to pop the command from the commands array as a workaround for duplicate commands
+    ; not being detected when using the "_last_cmds_i = cmds_i" comparsion from earlier
+    Ui.Invoke(_CON, "_global.Console.ConsoleInstance.Commands.pop")
+
 	cmd_i = 7
 	cmd_j = StringUtil.GetLength(cmd)
 	
@@ -145,6 +149,7 @@ endevent
 event OnHelpCommand()
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] To get started, checkout the command list by typing \"nl_cmd help commands\"\n")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] Good to know:\n")
+    Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * The command history does not support nl_cmd commands \n")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * All commands are called by prefixing them with the nl_cmd keyword in the input\n")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * Somme commands take arguments that need to be provided in parantheses, e.g. nl_cmd SendModEvent(argumentshere) \n")
     Ui.InvokeString(_CON, "_global.Console.AddHistory", "NL_CMD [Info] * Commands that take multiple arguments must separate between them in the paranthesis using the ';' character, e.g. nl_cmd SendModEvent(randomevent;;0.0)\n")
@@ -173,6 +178,9 @@ endevent
 ;---------\
 ; INTERNAL \
 ;--------------------------------------------------------
+
+function _ParseCommand()
+endfunction
 
 function _RunCommand(string cmd, string vars)
 	int cmd_i = _registered_cmds.Find(cmd)

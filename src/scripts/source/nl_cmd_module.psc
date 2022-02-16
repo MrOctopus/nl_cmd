@@ -3,7 +3,7 @@ Scriptname nl_cmd_module extends Quest
 	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script,
 	and then register/unregister commands in the manner that suits them best. For example, in the OnInit() script event.
 	@author NeverLost
-	@version 1.0.1
+	@version 1.0.2
 }
 
 string property _CON = "Console" autoreadonly
@@ -180,6 +180,21 @@ objectreference function GetCurrentConsoleSelection()
 	@return The object reference of the currently selected object, or None if nothing is selected
 }
 	return Game.GetCurrentConsoleRef()
+endfunction
+
+function SetCurrentConsoleSelection(objectreference obj)
+{
+	Set the current user reference selection in the console menu.
+	@param obj - The object reference to set the selection to
+}
+	if obj
+		string obj_string = obj as string
+		int i = StringUtil.Find(obj_string, "(") + 1
+		int j = StringUtil.Find(obj_string, ")", i)
+
+		obj_string = StringUtil.SubString(obj_string, i, j - i)
+		ExecuteConsoleNative("prid " + obj_string)
+	endif
 endfunction
 
 string function GetLastConsoleCommand()

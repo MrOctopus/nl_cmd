@@ -20,6 +20,7 @@ Notably the mod has no additional dependencies besides SKSE and should always be
     - Execute native console commands
     - Get the last console command
     - Get the current console selection
+    - Set the current console selection
     - All without any .dll dependencies!
 * Advanced command registration
     - Register and unregister commands on the fly - in-game!

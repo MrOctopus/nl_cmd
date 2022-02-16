@@ -179,9 +179,6 @@ endevent
 ; INTERNAL \
 ;--------------------------------------------------------
 
-function _ParseCommand()
-endfunction
-
 function _RunCommand(string cmd, string vars)
 	int cmd_i = _registered_cmds.Find(cmd)
 

@@ -107,6 +107,7 @@ event OnKeyDown(int key)
     ; We need to pop the command from the commands array as a workaround for duplicate commands
     ; not being detected when using the "_last_cmds_i = cmds_i" comparsion from earlier
     Ui.Invoke(_CON, "_global.Console.ConsoleInstance.Commands.pop")
+    _last_cmds_i = cmds_i - 1
 
 	cmd_i = 7
 	cmd_j = StringUtil.GetLength(cmd)

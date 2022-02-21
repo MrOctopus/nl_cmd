@@ -2,7 +2,7 @@ Scriptname nl_cmd_globalinfo
 {
 	This script contains useful global functions to check the nl_cmd api version/state.
 	@author NeverLost
-	@version 1.0.2
+	@version 1.0.3
 }
 
 bool function IsInstalled() global
@@ -18,5 +18,5 @@ int function CurrentVersion() global
 	Get the current version of nl_cmd.
 	@return The current nl_cmd version
 }
-	return 102
+	return 103
 endfunction

@@ -3,7 +3,7 @@ Scriptname nl_cmd_module extends Quest
 	This script contains the official API functions of nl_cmd. To call them, the mod author simply needs to extend the base nl_cmd_module script,
 	and then register/unregister commands in the manner that suits them best. For example, in the OnInit() script event.
 	@author NeverLost
-	@version 1.0.2
+	@version 1.0.3
 }
 
 string property _CON = "Console" autoreadonly

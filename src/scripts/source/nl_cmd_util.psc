@@ -2,7 +2,7 @@ Scriptname nl_cmd_util
 {
 	This script contains miscellaneous useful global functions.
 	@author NeverLost
-	@version 1.0.2
+	@version 1.0.3
 }
 
 string function GetModName(form to_find) global
